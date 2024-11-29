@@ -1,0 +1,77 @@
+/// All options here: https://github.com/ros2/rmw_zenoh/blob/rolling/rmw_zenoh_cpp/config/DEFAULT_RMW_ZENOH_SESSION_CONFIG.json5
+{
+  /// The node's mode (router, peer or client)
+  mode: "peer",
+
+  /// Which endpoints to connect to. E.g. tcp/localhost:7447.
+  /// By configuring the endpoints, it is possible to tell zenoh which router/peer to connect to at startup.
+  /// ROS setting: By default connect to the Zenoh router on localhost on port 7447.
+  connect: {
+    endpoints: [
+      "tcp/router-host:7447",
+    ],
+  },
+
+  /// Which endpoints to listen on. E.g. tcp/localhost:7447.
+  /// By configuring the endpoints, it is possible to tell zenoh which are the endpoints that other routers,
+  /// peers, or client can use to establish a zenoh session.
+  /// ROS setting: By default accept incoming connections only from localhost (i.e. from colocalized Nodes).
+  ///              All communications with other hosts are routed by the Zenoh router.
+  listen: {
+    endpoints: [
+      "tcp/localhost:0",
+    ],
+  },
+
+  /// Configure the scouting mechanisms and their behaviours
+  scouting: {
+    /// In client mode, the period dedicated to scouting for a router before failing
+    timeout: 3000,
+    /// In peer mode, the period dedicated to scouting remote peers before attempting other operations
+    delay: 1,
+    /// The multicast scouting configuration.
+    multicast: {
+      /// Whether multicast scouting is enabled or not
+      enabled: false,
+      /// The socket which should be used for multicast scouting
+      address: "224.0.0.224:7446",
+      /// The network interface which should be used for multicast scouting
+      interface: "auto", // If not set or set to "auto" the interface if picked automatically
+      /// Which type of Zenoh instances to automatically establish sessions with upon discovery on UDP multicast.
+      /// Accepts a single value or different values for router, peer and client.
+      /// Each value is bit-or-like combinations of "peer", "router" and "client".
+      autoconnect: { router: "", peer: "router|peer" },
+      /// Whether or not to listen for scout messages on UDP multicast and reply to them.
+      listen: true,
+    },
+    /// The gossip scouting configuration.
+    gossip: {
+      /// Whether gossip scouting is enabled or not
+      enabled: true,
+      /// When true, gossip scouting informations are propagated multiple hops to all nodes in the local network.
+      /// When false, gossip scouting informations are only propagated to the next hop.
+      /// Activating multihop gossip implies more scouting traffic and a lower scalability.
+      /// It mostly makes sense when using "linkstate" routing mode where all nodes in the subsystem don't have
+      /// direct connectivity with each other.
+      multihop: false,
+      /// Which type of Zenoh instances to automatically establish sessions with upon discovery on gossip.
+      /// Accepts a single value or different values for router, peer and client.
+      /// Each value is bit-or-like combinations of "peer", "router" and "client".
+      autoconnect: { router: "", peer: "router|peer" },
+    },
+  },
+
+ /// Configuration of data messages timestamps management.
+  timestamping: {
+    /// Whether data messages should be timestamped if not already.
+    /// Accepts a single boolean value or different values for router, peer and client.
+    /// PublicationCache which is required for transient_local durability
+    /// only works when time-stamping is enabled.
+    enabled: { router: true, peer: true, client: false },
+    /// Whether data messages with timestamps in the future should be dropped or not.
+    /// If set to false (default), messages with timestamps in the future are retimestamped.
+    /// Timestamps are ignored if timestamping is disabled.
+    drop_future_timestamp: false,
+  },
+
+}

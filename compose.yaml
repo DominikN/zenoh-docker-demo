@@ -1,0 +1,24 @@
+services:
+  talker:
+    build: .
+    volumes:
+      - ./session_config.json5:/session_config.json5
+    environment:
+      - RMW_IMPLEMENTATION=rmw_zenoh_cpp
+      - ZENOH_SESSION_CONFIG_URI=/session_config.json5
+    command: ros2 run demo_nodes_cpp talker
+
+  listener:
+    build: .
+    volumes:
+      - ./session_config.json5:/session_config.json5
+    environment:
+      - RMW_IMPLEMENTATION=rmw_zenoh_cpp
+      - ZENOH_SESSION_CONFIG_URI=/session_config.json5
+    command: ros2 run demo_nodes_cpp listener
+
+  router-host:
+    build: .
+    environment:
+      - RMW_IMPLEMENTATION=rmw_zenoh_cpp
+    command: ros2 run rmw_zenoh_cpp rmw_zenohd
