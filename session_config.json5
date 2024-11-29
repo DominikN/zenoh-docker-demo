@@ -1,4 +1,6 @@
-/// All options here: https://github.com/ros2/rmw_zenoh/blob/rolling/rmw_zenoh_cpp/config/DEFAULT_RMW_ZENOH_SESSION_CONFIG.json5
+/// All options here: 
+/// https://github.com/ros2/rmw_zenoh/blob/rolling/rmw_zenoh_cpp/config/DEFAULT_RMW_ZENOH_SESSION_CONFIG.json5
+/// https://github.com/eclipse-zenoh/zenoh/blob/main/DEFAULT_CONFIG.json5
 {
   /// The node's mode (router, peer or client)
   mode: "peer",
