@@ -7,6 +7,14 @@ A minimal demonstration of using ROS 2 & Zenoh in Docker with a simple talker/li
 
 ## How to use `rmw_zenoh_cpp`
 
+create the `rmw/.env` file with your Husarnet JoinCode:
+
+```bash
+JOINCODE=fc94:b01d:1803:8dd8:b293:5c7d:7639:932a/xxxxxxxxxxxxxxxxxxxxxx
+```
+
+and run:
+
 ```bash
 cd rmw/
 docker compose up
