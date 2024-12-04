@@ -1,0 +1,16 @@
+name: ${CHATTER_ROLE:-talker}
+
+services:
+  chatter:
+    build:
+      dockerfile: Dockerfile.chatter
+    network_mode: service:bridge
+    environment:
+      - ROS_LOCALHOST_ONLY=1
+    command: ros2 run demo_nodes_cpp ${CHATTER_ROLE:-talker}
+
+  bridge:
+    build: .
+    environment:
+      - ROS_DISTRO=jazzy
+    command: zenoh-bridge-ros2dds
